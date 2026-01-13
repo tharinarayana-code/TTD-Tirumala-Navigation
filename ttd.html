@@ -1,0 +1,687 @@
+<html>
+
+<head>
+    <title>Location Links - TTD</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        #searchInput {
+            display: block;
+            margin: 0 auto 20px;
+            padding: 10px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        
+        #locations {
+            list-style-type: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        #locations li {
+            margin-bottom: 10px;
+        }
+        
+        #locations li a {
+            display: block;
+            padding: 12px 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        #locations li a:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script>
+        function filterLocations() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const ul = document.getElementById('locations');
+            const li = ul.getElementsByTagName('li');
+            for (let i = 0; i < li.length; i++) {
+                const a = li[i].getElementsByTagName('a')[0];
+                const textValue = a.textContent || a.innerText;
+                li[i].style.display = textValue.toLowerCase().includes(filter) ? "" : "none";
+            }
+        }
+        // Function to speak text
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(utterance);
+        }
+
+        // Add speech synthesis and delayed redirect on list item click
+        document.addEventListener("DOMContentLoaded", () => {
+            const links = document.querySelectorAll("#locations li a");
+            links.forEach(link => {
+                link.addEventListener("click", (event) => { // Pass the event object here
+                    event.preventDefault(); // *** CRITICAL: Prevent immediate link navigation ***
+
+                    // 1. Handle Speech Synthesis
+                    const locationName = link.textContent.trim();
+                    let cleanLocationName = locationName;
+                    if (locationName.startsWith("OU- ")) {
+                        cleanLocationName = locationName.substring("OU- ".length);
+                    }
+                    const phraseToSpeak = "Welcome to Tirumala Tirupati Devasthanams,Navigating to" + cleanLocationName;
+                    speak(phraseToSpeak);
+
+                    // 2. Prepare for Delayed Redirect
+                    const targetUrl = link.href; // Get the URL from the link's href attribute
+                    const targetWindow = link.target; // Get the target attribute ('_blank', '_self', etc.)
+
+                    // Optional: Provide visual feedback to the user
+                    const originalLinkText = link.textContent;
+                    link.style.color = "orange"; // Highlight the link to indicate action
+
+                    // 3. Set the Timeout for Redirection
+                    setTimeout(() => {
+                        if (targetWindow === '_blank') {
+                            // If target is _blank, open in a new tab/window
+                            window.open(targetUrl, '_blank');
+                        } else {
+                            // Otherwise, redirect in the current window
+                            window.location.href = targetUrl;
+                        }
+
+                        // Optional: Revert link text/style if the current page remains visible
+                        // (This happens if a new tab was opened, as the current page doesn't redirect)
+                        if (targetWindow === '_blank') {
+                            link.textContent = originalLinkText;
+                            link.style.color = ""; // Revert color
+                        }
+                    }, 5000);
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>TTD</h2>
+        <h3>Touch to navigate</h3>
+        <input type="text" id="searchInput" onkeyup="filterLocations()" placeholder="Search for a location to navigate">
+        <div style="max-height: 620px; overflow-y: auto; padding: 10px; border-radius: 10px; border: 1px solid #eee;">
+            <ul id="locations">
+                <li><a href="https://www.google.com/maps?q=13.68327,79.34727" target="_blank">Sri Venkateswara Swami Temple (Srivari Temple)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68503,79.34771" target="_blank">Sri Bhua Varaha Swamy Temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.682737,79.348098" target="_blank">Sri Hathiramjee Mutt</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6834639607064,79.3493205513858" target="_blank">Sri Bedi Anjaneya Swamy Temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6781913998529,79.3521266790823" target="_blank">Srivari Sikhara Darshanam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.679678,79.333147" target="_blank">Shrivaari Padaalu</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6964554096044,79.3365682234525" target="_blank">Shri Japaali Hanuman Temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68024,79.34698" target="_blank">Sri Venkateshwara Dhyana Jnana Mandiram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.659885565254,79.3840362793012" target="_blank">Sri Prasanna Anjaneya Swamy Mandir</a></li>
+                <li><a href="https://www.google.com/maps?q=13.7030577193196,79.3448451563582" target="_blank">Sri Venugopala Swamy Temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6561326121909,79.4212748287278" target="_blank">Sri Kapileswara Swamy Temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6471015577064,79.4059196520412" target="_blank">Garuda statue alipiri circle</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6477783733628,79.404617720391" target="_blank">Alipiri padhala mandapam rajagopuram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6647484302374,79.3656480996276" target="_blank">Alipiri arch</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6471667966518,79.4057833871116" target="_blank">Gate to heaven</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6648394767314,79.3656704413945" target="_blank">Alipiri new foot bridge</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6470070415085,79.4057976086234" target="_blank">Alipiri raja gopuram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6784951334563,79.3413250950197" target="_blank">NGC (Night Cottages)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6746892366325,79.3500542052804" target="_blank">GNC (General Night Cottages)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6758979501824,79.3493391471423" target="_blank">ANC (Annadanam Night Cottages)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6796358512989,79.3501832250622" target="_blank">SNC / SNGH (Sri Nivasara Cottages / Guest Houses)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6803916981706,79.3482533883275" target="_blank">SMC (Sri Muktha Cottages)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.680104439769,79.3467610494413" target="_blank">ATC (Annapratha Cottages)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6786775043164,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)3</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)4</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)5</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)6</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)7</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)8</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)9</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)10</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)11</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)12</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67868,79.3451176005141" target="_blank">TBC (Travellers’ Bungalow Cottages)13</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6782981796896,79.3429152703964" target="_blank">MBC Cottages No. 20</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6782981796896,79.3429152703964" target="_blank">MBC Cottages No. 22</a></li>
+                <li><a href="https://www.google.com/maps?q=13.673238807563,79.3486644344625" target="_blank">Hill View Cottages ordinary</a></li>
+                <li><a href="https://www.google.com/maps?q=13.673238807563,79.3486644344625" target="_blank">Hill View Cottages deluxe</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6779596338283,79.3424561301001" target="_blank">Valley View Cottages</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6857648110197,79.352126891227" target="_blank">Surapuram Thota Cottages</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6796189990349,79.3422420809653" target="_blank">Alwar Tank Cottages No. 99</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6796157076758,79.3422420809653" target="_blank">Alwar Tank Cottages single rooms</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6764535148344,79.3497389819881" target="_blank">Anjanadri Nagar Cottages</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67216,79.35038" target="_blank">Garudadri Nagar Cottages</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807287156368,79.3489334139131" target="_blank">Sankumitta Cottages 1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807287156368,79.3489334139131" target="_blank">Sankumitta Cottages 2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807287156368,79.3489334139131" target="_blank">Sankumitta Cottages 3</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807287156368,79.3489334139131" target="_blank">Sankumitta Cottages 4</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807287156368,79.3489334139131" target="_blank">Sankumitta Cottages 5</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807287156368,79.3489334139131" target="_blank">Sankumitta Cottages 6</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807287156368,79.3489334139131" target="_blank">Sankumitta Cottages 7</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807287156368,79.3489334139131" target="_blank">Sankumitta Cottages 8</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807287156368,79.3489334139131" target="_blank">Sankumitta Cottages 9</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807287156368,79.3489334139131" target="_blank">Sankumitta Cottages 10</a></li>
+                <li><a href="https://www.google.com/maps?q=13.678437568525,79.3490703592382" target="_blank">Seshadri Nagar Cottages</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68427,79.34943" target="_blank">Ram Bagicha Guest House I</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6843,79.35019" target="_blank">Ram Bagicha Guest House II</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68433,79.35109" target="_blank">Ram Bagicha Guest House III</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6826608305084,79.3413451525589" target="_blank">Srivari Kuteer Guest House suite1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6826608305084,79.3413451525589" target="_blank">Srivari Kuteer Guest House suite2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6826608305084,79.3413451525589" target="_blank">Srivari Kuteer Guest House suite3</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6826608305084,79.3413451525589" target="_blank">Srivari Kuteer Guest House suite4</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6819486510532,79.3408900728418" target="_blank">Narayanagiri Guest House I</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6819486510532,79.3408900728418" target="_blank">Narayanagiri Guest House I  corner suite</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6821527793807,79.3407935468068" target="_blank">Narayanagiri Guest House II</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6821527793807,79.3407935468068" target="_blank">Narayanagiri Guest House II  corner suite</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6800409671066,79.3401562843568" target="_blank">Narayanagiri Guest House III</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6800409671066,79.3401562843568" target="_blank">Narayanagiri Guest House III  corner suite</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6775115258123,79.3471934295755" target="_blank">RajyaLakshmi Guest House A/C</a></li>
+                <li><a href="https://www.google.com/maps?q=13.686049977746,79.3431738039156" target="_blank">Venkata Vijayam Guest House A/C master suite1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.686049977746,79.3431738039156" target="_blank">Venkata Vijayam Guest House A/C master suite2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.686049977746,79.3431738039156" target="_blank">Venkata Vijayam Guest House A/C master suite3</a></li>
+                <li><a href="https://www.google.com/maps?q=13.686049977746,79.3431738039156" target="_blank">Venkata Vijayam Guest House A/C suite1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.686049977746,79.3431738039156" target="_blank">Venkata Vijayam Guest House A/C suite2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.686049977746,79.3431738039156" target="_blank">Venkata Vijayam Guest House A/C suite3</a></li>
+                <li><a href="https://www.google.com/maps?q=13.686049977746,79.3431738039156" target="_blank">Venkata Vijayam Guest House A/C suite4</a></li>
+                <li><a href="https://www.google.com/maps?q=13.686049977746,79.3431738039156" target="_blank">Venkata Vijayam Guest House A/C suite5</a></li>
+                <li><a href="https://www.google.com/maps?q=13.686049977746,79.3431738039156" target="_blank">Venkata Vijayam Guest House A/C suite6</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6780921401735,79.3477217132167" target="_blank">Vidya Sadan</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6789508589204,79.3478735892996" target="_blank">Srinikethan A/C suite1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6789508589204,79.3478735892996" target="_blank">Srinikethan A/C suite2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6789508589204,79.3478735892996" target="_blank">Srinikethan A/C suite3</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67753877574,79.3471420616069" target="_blank">Gayathri Sadan A/C</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6769338178663,79.3453886992972" target="_blank">Hari Sadan Guest House A/C suite1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6769338178663,79.3453886992972" target="_blank">Hari Sadan Guest House A/C suite2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6769338178663,79.3453886992972" target="_blank">Hari Sadan Guest House A/C suite3</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6769338178663,79.3453886992972" target="_blank">Hari Sadan Guest House A/C suite4</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6769338178663,79.3453886992972" target="_blank">Hari Sadan Guest House A/C suite5</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6769338178663,79.3453886992972" target="_blank">Hari Sadan Guest House A/C suite6</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6769338178663,79.3453886992972" target="_blank">Hari Sadan Guest House A/C suite7</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6777881428639,79.3472564144847" target="_blank">Indira Rest House A/C suite1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6777881428639,79.3472564144847" target="_blank">Indira Rest House A/C suite2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6777881428639,79.3472564144847" target="_blank">Indira Rest House A/C suite3</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6777881428639,79.3472564144847" target="_blank">Indira Rest House A/C suite4</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6781993511693,79.3463412733609" target="_blank">Ampro Rest House</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6810174768926,79.3491156906149" target="_blank">Jagannadha Bhavan – 1 Suite</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6810174768926,79.3491156906149" target="_blank">Jagannadha Bhavan – 2 Suite</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6810174768926,79.3491156906149" target="_blank">Jagannadha Bhavan – 3 Suite</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6786980489928,79.3480300848114" target="_blank">Lakshmi Nivas</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6931112689129,79.3593333252628" target="_blank">Greenk Group Cottages &amp; Guest Houses (private-sector block)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68586,79.35052" target="_blank">Nandakam Rest house</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6763790696703,79.3520481261287" target="_blank">Panchajanyam Guest House</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6764546868166,79.3451340097847" target="_blank">Padmavathi Nilayam(guest house)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6859591476864,79.345126397103" target="_blank">All India Arya Vysya Samajam Satram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68606,79.34579" target="_blank">Vasavi Bhavan</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6858154269242,79.3440358990711" target="_blank">Udupi Mutt</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6858970411277,79.3461603248752" target="_blank">Sri Vaishnav Mool Mutt</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6860987474922,79.3441454850485" target="_blank">Pushpa Mantapam- Chinna Jeeyar Mutt</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6811541374893,79.3451911509237" target="_blank">Sarva Darshan (Free Darshan without ticket)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6698127759871,79.3404933413798" target="_blank">Divya Darshan token issue (For footpath pilgrims via Alipiri or Srivari Mettu)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6825828264057,79.3471947800259" target="_blank">Senior Citizen Darshan (For devotees aged 65 and above)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6825828264057,79.3471864607926" target="_blank">Physically Challenged Darshan (For disabled devotees with valid proof)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6822549048155,79.3489300529444" target="_blank">Main Kalyāṇa Katta (Main KKC)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6781025849705,79.3515080747557" target="_blank">PAC1 (Pilgrim Amenities Complex 1)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67725115132,79.3510317697487" target="_blank">PAC2 (Pilgrim Amenities Complex 2)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6764563897734,79.3451338318135" target="_blank">SPRH (Sri Padmavathi Rest House)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6793574100883,79.3410260438013" target="_blank">SVRH (Sri Venkateswara Rest House)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6858112646486,79.3505170000257" target="_blank">NDRH (Nandhakam Rest House)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.673244193286,79.3486622616748" target="_blank">HVC (Hill View Cottages)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6802456731882,79.3534210073076" target="_blank">KTRH (Kousthubham Rest House)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6819995855249,79.3511440943993" target="_blank">SGRH (Sapthagiri Rest House)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6832438050847,79.3496177230202" target="_blank">Asthana Mandapams (royal audience halls)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6824597408797,79.3496371358614" target="_blank">Annadanam Hall</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6832400564132,79.3496186048198" target="_blank">Asthana Mandapa</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6665004233148,79.3546525818603" target="_blank">Mookalla Mettu Parvatam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.669801723058,79.3502985068042" target="_blank">Seshachalam Hills</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6834377657143,79.3478020587862" target="_blank">Ayana mahal Unjal seva mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6842187060472,79.3489838206072" target="_blank">Vaibhavotsavam mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6856338495335,79.3444676043203" target="_blank">Tirumala Marriage Kalyana Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6833663071837,79.3481654120768" target="_blank">Golla mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6841549828363,79.3454566648062" target="_blank">Karnataka kalyana mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6832758752055,79.3474986606253" target="_blank">Mahamani Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6824650621797,79.3486989598034" target="_blank">New Sri Sitarama Kalyana Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.686103640173,79.3441415173727" target="_blank">Pushpa Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6860516279847,79.3449307138509" target="_blank">Raghavendra swamy mutt mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6831363262487,79.347889080575" target="_blank">Ranganayaka mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6830745865301,79.3478992128837" target="_blank">Snapana Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6829002501661,79.3483911687851" target="_blank">Sahasra Deepalankarana Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6767015217181,79.3426004979826" target="_blank">Srivari Mettu Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6980760967166,79.3531713876519" target="_blank">Srivari paruveta mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6838570134565,79.3488867554741" target="_blank">Sri venkatesha swami vari Vahana mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6780388854643,79.3505745133812" target="_blank">Tirumala Footpath Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6856358467498,79.3444633185549" target="_blank">Tirumala Marriage Kalyana Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6881908302568,79.3505068082966" target="_blank">TTD  Kalyana Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6785493963054,79.3450407433299" target="_blank">TBC Kalyana Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6845968237135,79.3490660434947" target="_blank">Vaayu&nbsp;Utsava&nbsp;Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6848779921945,79.3437789113555" target="_blank">State Bank of India ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68435,79.35119" target="_blank">Central Bank of India ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6839993391392,79.3480710767188" target="_blank">Access Bank ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6809345933637,79.3501915651709" target="_blank">Union Bank of India ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6795847882795,79.3513758003358" target="_blank">IDBI Bank ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6805225436769,79.3512687669193" target="_blank">HDFC Bank ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6814573168381,79.3469754750842" target="_blank">Bank of India ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6821756373848,79.3466338706658" target="_blank">Andhra Bank ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6785752735704,79.3430194834768" target="_blank">Vijaya Bank ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6886713137952,79.3494112256121" target="_blank">Canara Bank ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6812203737841,79.3502428225507" target="_blank">KVB (Karur Vysya Bank) ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6809257544078,79.3504898737436" target="_blank">Karur Vysya Bank ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6838072097692,79.3490809669768" target="_blank">Canara Bank ATM 2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.7016890191983,79.3376162898954" target="_blank">Bank of Maharashtra ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6800627956571,79.3513505817229" target="_blank">Oriental Bank of Commerce ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68448,79.35138" target="_blank">ICICI Bank ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6935075859208,79.3458240523978" target="_blank">India 1 ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.7060875190734,79.3401871655005" target="_blank">Akasa Ganga Waterfalls</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6876763828526,79.3559918510948" target="_blank">Pandava Teertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.7285815250628,79.3277317929103" target="_blank">Kumaradhara Teertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.7421605729715,79.3535426934841" target="_blank">Tumbhuru Teertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.7371129353169,79.3437722356091" target="_blank">Ramakrishna Teertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6885762566558,79.3405726230812" target="_blank">Chakra Teertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6814390342115,79.366268134551" target="_blank">Vaikuntha Teertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6909483400486,79.3891090588791" target="_blank">Sesha Teertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6964158168031,79.3362794199277" target="_blank">Sitamma Teertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.7199612302485,79.3445716395701" target="_blank">Papavinasanam falls &amp; view area</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6536804703044,79.4178664793994" target="_blank">Jungle Book waterfalls</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68832,79.34504" target="_blank">Naga Theertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6844139678281,79.3479006328159" target="_blank">Pushkarini (Temple tank)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6467263365256,79.4078239420576" target="_blank">Alipiri steps parking</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6466425588184,79.4038772489048" target="_blank">Alipiri toll plaza</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6487543452612,79.4090587231676" target="_blank">APSRTC bus stand alipiri</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6463051546097,79.4077513617976" target="_blank">Alipiri old check point</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6771626789433,79.3499990881081" target="_blank">APSRTC bus stand tirumala</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6481132920969,79.4090909416735" target="_blank">Alipiri sri balaji link bus station</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6647525549823,79.3656498495483" target="_blank">Alipiri Arch  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6472641974669,79.4049521373869" target="_blank">AlipiriFootpath  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6529513518989,79.4012438548028" target="_blank">Alipiri Step Counter  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6527215880454,79.4013081240402" target="_blank">Thousand Steps Point  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6467202648802,79.4078309122723" target="_blank">Alipiri Parking Zone  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6477724537338,79.4046725941267" target="_blank">Alipiri Footpath Frisking Point  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.647788559475,79.4046246613237" target="_blank">Alipiri Mandapam  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6516406704734,79.4228567043789" target="_blank">Pilgrims RestHall Alipiri  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.7034784133537,79.3578082813139" target="_blank">Annamayya Footpath Name board  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6597207700837,79.3843733161957" target="_blank">Tirumala Footpath Walking Track  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6466405065975,79.4038778440505" target="_blank">Tirumala Entrance Point  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6509837414403,79.4031939657413" target="_blank">Srivari Mettu Entry Gate  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6625326424665,79.3369368457307" target="_blank">Srivari Mettu Checkpoint  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6649949479699,79.3388001474725" target="_blank">Srivari Mettu Steps  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6767015639102,79.3426071727356" target="_blank">Srivari Mettu Mandapam  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6621519657015,79.3373706111226" target="_blank">Pilgrims Frisking Point Srivari Mettu  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6767371424254,79.342684691412" target="_blank">Tirumala Footpath Endpoint</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6874012456641,79.3399565127267" target="_blank">Sila Thoranam (rock-arch viewpoint)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6913019142372,79.3341827798928" target="_blank">Dharmagiri hill</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6799522100895,79.3446416695315" target="_blank">Alwar Tank viewpoint</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6581607211225,79.420441998597" target="_blank">Tirupati view point</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807351372819,79.3510446703136" target="_blank">Lepakshi Circle</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6518298889973,79.4162794713071" target="_blank">Divyaramam Park</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6840501769061,79.3432980101118" target="_blank">Sri Venkateshwara Museum</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6821571007638,79.3468190857201" target="_blank">Vaikuntam Q Complex Park</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6773586844887,79.3485372326099" target="_blank">Aswini hospital</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6820805058073,79.3496942651697" target="_blank">TTD free dispecery</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6447435460562,79.4057688511443" target="_blank">Sri Venkateswara Ramnarain Ruia Government General Hospital</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6675336958938,79.3539837546246" target="_blank">TTD Emergency Medical Centre</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6859591043379,79.3408564771112" target="_blank">Rock Garden</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6873271256354,79.3404982009774" target="_blank">Silathoranam Garden</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6587312737098,79.3891411402381" target="_blank">Tirumala Deer park Reserve</a></li>
+                <li><a href="https://www.google.com/maps?q=13.691023070071,79.354080954315" target="_blank">Gograbham Dam Park</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6432163420382,79.3979413003781" target="_blank">Regional Science Centre, Tirupati</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6707055991675,79.349939982842" target="_blank">GMR eco park</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6808981604891,79.3506069737616" target="_blank">Shri Venkateshwara Idol</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6596670509225,79.383927221228" target="_blank">Seshachala vanadarshini Forest Museum</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6841058285119,79.3433083700226" target="_blank">Archaeological Museum</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6817464736536,79.3468787746118" target="_blank">Vaikuntam Queue Complex 1 (paid darshan)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6825895642464,79.3444275869668" target="_blank">Vaikuntam Queue Complex 2 (free darshan)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6471717899186,79.4095892763812" target="_blank">Alipiri foot-path token counter</a></li>
+                <li><a href="https://www.google.com/maps?q=13.669818490764,79.3404911322025" target="_blank">Srivari Mettu foot-path token counter</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6821672874384,79.3468256423007" target="_blank">Vaikuntham Q complex park</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68243,79.34776" target="_blank">Supatham Queue</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68184,79.3471" target="_blank">Tirupathi balaji queue complex</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6830189275028,79.3435363075591" target="_blank">ATGH circle queue(sarva darshan token)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6850329325453,79.3498908464253" target="_blank">Royal Saranggee Family Restaurant</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6847188566014,79.3436675719913" target="_blank">AP Tourism Restaurant</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6715385013416,79.348259187133" target="_blank">Annamaya Sannidhanam Restaurant</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6787607910272,79.3408554493663" target="_blank">Sarangi Fine Dine Restaurant</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67803,79.35142" target="_blank">Annaprasadha Free Food</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807988216736,79.3498967182006" target="_blank">Sri Padmavati Annapurna Restaurant</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6805036594654,79.3489861721467" target="_blank">Sri Lakshmi Varaha Hote</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6861884510528,79.3485366102259" target="_blank">SV Food Plaza</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6732516777829,79.3486523618101" target="_blank">Annaprasadham TTD</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6770855228581,79.3504595664894" target="_blank">Sri Balaji Woodside Restaurant</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6734,79.34886" target="_blank">Balaji Saravana Bhavan </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6857070517208,79.3461445722312" target="_blank">Sri Ramanujam Restauran</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6716769102303,79.348410986438" target="_blank">Srivari Naivedhyam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.683629521707,79.3515439074981" target="_blank">Sri Balaji Mi Marathi Maharashtrian Jevan </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6820174505833,79.3509074590741" target="_blank">Sri Lakshmi Narayana Saptagiri Shaya Restaurant</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6717535862271,79.3484069662506" target="_blank"> LA Maestro Italian Café</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6852240821212,79.3516430072756" target="_blank">TTD canteen</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6478012501712,79.4046126735902" target="_blank">Alipiri padhala mandapam rajogoparam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6495791044184,79.4052129706788" target="_blank">Tirupati , tirmala mandir</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6486196939629,79.4041907256058" target="_blank">Baktha anjaneya swamy statue</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6515093181901,79.4023454694971" target="_blank">Varaha avataram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6523204350058,79.4015663058579" target="_blank">Aalwar theertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6557721658705,79.3988263749845" target="_blank">Gali gopuram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6553102702811,79.4096474699368" target="_blank">Lord ananta sesa as sapthagiri hill</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6492755093494,79.4033967812206" target="_blank">Kurma avatharam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6497185965626,79.4032723534401" target="_blank">Mysore Gopuram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6494029407199,79.4033489814497" target="_blank">Alipiri step 200</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6506074270894,79.4030701444973" target="_blank">Alipiri steps 450</a></li>
+                <li><a href="https://www.google.com/maps?q=13.65127714428,79.4026737670646" target="_blank">Alipiri seps 600</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6519365897061,79.4021177662831" target="_blank">Alipiri steps 800</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6527189164155,79.4013124292759" target="_blank">Alipiri steps 1000</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6530985492667,79.401011564916" target="_blank">Alipiri steps 1050</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6533923597115,79.4011162833237" target="_blank">Alipiri steps 1100</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6534089122866,79.4008293202001" target="_blank">Alipiri steps 1200</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6536988208027,79.4007791405689" target="_blank">Alipiri steps 1250</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6537165919775,79.4006977590131" target="_blank">Sri Narashima Avatharam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6539139625106,79.4007472475358" target="_blank">Alipiri steps 1300</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6541818742711,79.4006121997539" target="_blank">Alipiri steps 1400</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6544794721821,79.4004509964973" target="_blank">Alipiri steps 1500</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6547334808502,79.400051099825" target="_blank">Alipiri steps 1600</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6549491849547,79.3997771575897" target="_blank">Alipiri steps 1700</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6552248566466,79.3993080862951" target="_blank">Sri Vahama Avatharam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6823473065622,79.3414631635923" target="_blank">free darma darshan thirupathi</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6958095737051,79.3296192310402" target="_blank">sri venkateswara veda vignana peetam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6557608342543,79.3988374880873" target="_blank">Gali Gopuram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.655764270941,79.3988304147629" target="_blank">Sai Balarama avataram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6596315199237,79.3865063796792" target="_blank">Tirumala down road</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6601476811256,79.38401242272" target="_blank">Malwadigundam Water Falls</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6604666933445,79.3811151573935" target="_blank">Dorasani Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6893136690522,79.3473499343338" target="_blank">sri sri sri mahayogi sidda purusha</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6889286636984,79.3472435607289" target="_blank">ganga mata temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6964593001289,79.3365718543741" target="_blank">shri japali hanuman temple </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6911097463781,79.3341480887151" target="_blank">sri abhayanjaneya swami vari devalayam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6976554934076,79.3896909165221" target="_blank">valmiki theertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6874564622632,79.3553596680851" target="_blank">gograbham theertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6884044341526,79.3557549530619" target="_blank">sri prativadi bhayankar mutt</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6780823878145,79.3566488561249" target="_blank">gangamma temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.689183770717,79.3473614109321" target="_blank">baata gangamma temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6847518095325,79.3566269792281" target="_blank">pachikalva temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6894685312012,79.3489532661453" target="_blank">sri vari pushpa udyanavanam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6917557673429,79.3469485338773" target="_blank">hathiram babaji circle</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68419,78.34668" target="_blank">public toilets</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6891794969417,79.3491469421157" target="_blank">srivari sevasadan parking bay</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6848257896328,79.343434728497" target="_blank">sringeri mutt</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6850105586906,79.3447768455646" target="_blank">ahobila mutt</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6855949087457,79.3452337017594" target="_blank">srirangam ashramam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6854511316162,79.3449266986107" target="_blank">parakala swamy mutt</a></li>
+                <li><a href="https://www.google.com/maps?q=13.685104849989,79.3451546016368" target="_blank">mata sri ram mandiram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.684811727841,79.3455209185184" target="_blank">ishtadevata temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6842889227244,79.3457643708475" target="_blank">brahmotsavam gallery 9</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6836794665877,79.3445305097517" target="_blank">q complex re entry point</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6833441048488,79.3455980666737" target="_blank">chinnajeeyangar swami mutt</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6830858581684,79.3450825298568" target="_blank">pagadapu hanuman temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6821637675075,79.3443948827687" target="_blank">waiting hall 1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6820919882177,79.3430355780485" target="_blank">waiting hall 2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6824228204248,79.3417758259167" target="_blank">thamara gunta</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6799191879566,79.3457375356583" target="_blank">atc enquiry office</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6841775506694,79.3456810546735" target="_blank">ananthalwar moksha sthala</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6771398155487,79.3458480071796" target="_blank">shri nivasam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6826371075086,79.3500240920814" target="_blank">pac 4, baggage collection</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6831645183426,79.34952184319" target="_blank">sri tarigonda vengamamba annaprasadam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6835312884537,79.3483637477916" target="_blank">temple front area</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6828027173009,79.3482717198387" target="_blank">sri swami hathiramji mutt</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6832890321822,79.3476442540139" target="_blank">vendi vakili</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6834316566682,79.3475390047019" target="_blank">sri yoga narasimha swammy sannidhi</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6832211421476,79.3466472297228" target="_blank">sri vanam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6832474060587,79.3412083158133" target="_blank">jai balaji ashram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6470151778493,79.4041252389257" target="_blank">Alipiri Gosala Office</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6476414302375,79.4044760934498" target="_blank">Talayeru Gundu</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6469885542902,79.404604883458" target="_blank">Goshala Tula Bharam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6472185815083,79.4049879867978" target="_blank">TTD  yagasala</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6473600741456,79.4049730861228" target="_blank">Sapthagiri gan pradakshina shala</a></li>
+                <li><a href="https://www.google.com/maps?q=13.678211095866,79.3521245910726" target="_blank">Srivari small temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6475842140245,79.4048041201407" target="_blank">Lakshmi narayana swamy temple </a></li>
+                <li><a href="https://www.google.com/maps?q=13.66667366,79.33948036" target="_blank">Sree Vaari Mettu (Foot Path) Tirumala </a></li>
+                <li><a href="https://www.google.com/maps?q=13.67554919,79.34873219" target="_blank">Annamayya Bhavan</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68075617,79.35088628" target="_blank">Tirumala </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6792104,79.340929" target="_blank">SVGH</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6781056,79.3408619" target="_blank">Special Cottages </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6791205,79.341722" target="_blank">Free Bus - Stop 12</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6787777,79.340852" target="_blank">Saarangi Fine Dine Restaurant </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6786541,79.3429088" target="_blank">MBC</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6788984,79.3429178" target="_blank">Free Bus - Stop 11 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6778578,79.3435418" target="_blank">TBC</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6777466,79.3425796" target="_blank">VVC</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6767803,79.3481277" target="_blank">Free Bus - Stop 7 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.677014,79.3478416" target="_blank">SPGH</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6775262,79.347991" target="_blank">Srinivasa Nilayam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6773158,79.3471698" target="_blank">Rajya Lakshmi</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68016016,79.34679239" target="_blank">ATC Kalyana Mandapam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.679502,79.3461804" target="_blank">Free Bus - Stop 9</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6798465,79.3460956" target="_blank">ATC</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67853959,79.34504454" target="_blank">TBC Kalyana Mandapam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6784628,79.3452357" target="_blank">TBC</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6784827,79.3444551" target="_blank">Free Bus - Stop 10 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68071818,79.34893288" target="_blank">Sanku Mitta Cottages </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6814977,79.34806119" target="_blank">Vaikunta Nilayam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6818241,79.3477045" target="_blank">Supatham Entrance </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6812008,79.3430431" target="_blank">Viijaya Bank</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68328049,79.347403" target="_blank">Dhwaja Sthambam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6833015,78.41977592" target="_blank">Srivari Hundi </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6837852,79.42102141" target="_blank">Laddoo Counter </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6841441,79.3483561" target="_blank">Srivari Ratham </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68417681,79.34545928" target="_blank">Karnataka</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6840969,79.3438117" target="_blank">Free Bus - Stop 15 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6838743,79.3430621" target="_blank">point1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6829069,79.3434928" target="_blank">Free Bus - Stop 14 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6807946,79.343033" target="_blank">point2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6808913,79.3403555" target="_blank">Free Bus - Stop 13 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.67948294,79.33309927" target="_blank">Srivari Padalu</a></li>
+                <li><a href="https://www.google.com/maps?q=13.69646756,79.33657393" target="_blank">Sri Japali Hanuman Temple </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6863999,79.3412342" target="_blank">Sila Thoranam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68445739,79.34349474" target="_blank">Gubba Munirathnam Choultry </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6848965,79.3434885" target="_blank">Sringeri Math</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6851161,79.344011" target="_blank">Free Bus - Stop 16 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.685539,79.3438552" target="_blank">Kasi math</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68581047,79.34403058" target="_blank">Udipi Krishna Math </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6853787,79.3443539" target="_blank">Mysore</a></li>
+                <li><a href="https://www.google.com/maps?q=13.685597,79.3448074" target="_blank">Vikhanasa Math </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6854528,79.344798" target="_blank">Parakala Math </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6854075,79.346185" target="_blank">Ahobila Math</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68245391,79.34872902" target="_blank">Seetharama Kalyana Mandapam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6855439,79.3451738" target="_blank">Andavan Math</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6860791,79.3451226" target="_blank">Chitoor Math </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6858784,79.3454485" target="_blank">Vijaya Bank </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6857351,79.3455208" target="_blank">Vijaya Bank ATM</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6856343,79.3457476" target="_blank">Free Bus - Stop 17 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6860025,79.34577697" target="_blank">Vasavi Bhavan </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6863067,79.3444033" target="_blank">Vallabhacharya Math</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6861557,79.3446857" target="_blank">Raghavendra Swamy Math </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68467382,79.34405545" target="_blank">Karnataka Bhavan</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68608829,79.34405545" target="_blank">Jeeyar Math</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68617187,79.34418193" target="_blank">Kanchi Kamakoti Math </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68680166,79.3456877" target="_blank">Pushpagiri Math </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68182667,79.35407292" target="_blank">Varahaswamy GH1 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68182667,79.35407292" target="_blank">Varahaswamy GH2 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68586719,79.34619961" target="_blank">Uttaradi Math </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68572907,79.34585347" target="_blank">Medaramitta</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6849929,79.3465798" target="_blank">Co-operative Bank  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6865852,79.3497789" target="_blank">Free Bus - Stop 19 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6869325,79.3485832" target="_blank">Free Bus - Stop 18 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68510572,79.35160768" target="_blank">Tirumala Fire Station </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6853382,79.3508209" target="_blank">Free Bus - Stop 20  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68428805,79.35111269" target="_blank">Ram Bageecha RGBH 3</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68463247,79.35167766000001" target="_blank">Papavinasanam Free Bus - Stop 21 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6855682,79.3518239" target="_blank">SPT TIRUPATI</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6830293,79.3534736" target="_blank">sv high school</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68352943,79.3519959" target="_blank">APSRTC Bus Stand , Ramabhagicha</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6834489,79.3516504" target="_blank">Dosa Plaza</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68429245,79.35111356" target="_blank">Ram Bageecha RGBH 2 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68429245,79.35111356" target="_blank">Ram Bageecha RGBH 1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68432586,79.34899278" target="_blank">Srivari Kalyanotsava Mandapam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68275453,79.34826075" target="_blank">Hathiramji Math</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68243091,79.34964182" target="_blank">Anna Dhanam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68317401,79.34965465" target="_blank">Asthana Mandapam </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6819503,79.3502743" target="_blank">Free Bus - Stop 22 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6812681,79.3502726" target="_blank">State Bank of India </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68095477,79.34890531" target="_blank">Vidyut Bhavan</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6803331,79.34894053" target="_blank">Press Club </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6803053,79.3487376" target="_blank">Canara Bank </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6800315,79.3489647" target="_blank">Free Bus - Stop 8</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68047838,79.35082083" target="_blank">State Information Centre </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68048352,79.35050207" target="_blank">Lepakshi Emporium </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6804855,79.3501773" target="_blank">Indian Coffee House</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68015506,79.35165124" target="_blank">Sudarshan Choultry 1NC (Free) </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6808286,79.3506615" target="_blank">Free Bus - Stop 23</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68125718,79.35108092" target="_blank">Saptagiri Guest House</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67847715,79.35162017" target="_blank">Govardhan Choultry 2nd NC (Free) </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68214036,79.34972625" target="_blank">Pilgrims Amenities Complex (Free) </a></li>
+                <li><a href="https://www.google.com/maps?q=13.68298016,79.35006191" target="_blank">Free Luggage</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6787079,79.3507981" target="_blank">Free Bus - Stop 1 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6789838,79.3507241" target="_blank">Free Bus - Stop 24</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67936191,79.35133812" target="_blank">Indian Railways Reservation Counter </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6792225,79.3515215" target="_blank">Dormitory</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68022818,79.35090761" target="_blank">Vigilance and Security Office </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6800047,79.350315" target="_blank">Ayurvedic Hospital</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67913255,79.3497743" target="_blank">Seshadri Nagar </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6793406,79.350021" target="_blank">Seshadri Nagar </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6795235,79.3497522" target="_blank">Tirumala</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6797302,79.3485269" target="_blank">SMC </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6786996,79.349307" target="_blank">SNC</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6777919,79.3504113" target="_blank">Tirumala Post and Telegraph Office  </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6775386,79.3501192" target="_blank">Tirumala Departure Bus Stop </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6771548,79.3503692" target="_blank">APSRTC Balaji Bus Stand</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6770747,79.3498672" target="_blank">APSRTC Bus Stand , Tirumala </a></li>
+                <li><a href="https://www.google.com/maps?q=13.677294,79.3485282" target="_blank">Aswini Hospital's Blood Bank </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6763393,79.3487669" target="_blank">HVDC</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6761144,79.3488381" target="_blank">HVDC</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6761277,79.3497166" target="_blank">Anjanadri Nagar </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6761798,79.3506103" target="_blank">ANC</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6764561,79.3507279" target="_blank">Free Bus - Stop 2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.676772,79.3515441" target="_blank">Kalyani Choultry 3rd NC (Free) </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6756769,79.3523332" target="_blank">APSRTC Bus Depot , Tirumala </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6795026,79.3545019" target="_blank">Madhava Nagar</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6740799,79.3508024" target="_blank">GNC</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6739753,79.3510586" target="_blank">Free Bus - Stop 3 </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6748304,79.3492104" target="_blank">Forest Office</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6741011,79.3485323" target="_blank">Hill View Cottage Mess </a></li>
+                <li><a href="https://www.google.com/maps?q=13.67197917,79.35054325" target="_blank">Garudadri Nagar</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6728254,79.348854" target="_blank">HVC</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67324036,79.3486737" target="_blank">Hill View Cottages </a></li>
+                <li><a href="https://www.google.com/maps?q=13.6725105,79.3490389" target="_blank">Free Bus - Stop 6</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6719014,79.3511975" target="_blank">Free Bus - Stop 5</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6731894,79.3511606" target="_blank">Free Bus - Stop 4</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6728944,79.3512012" target="_blank">GNC Tollgate</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6729325,79.3513869" target="_blank">GNC Tollgate</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6706912,79.3498842" target="_blank">Gaurudatri Garden</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68427556,79.34718289" target="_blank">Pushkarini Treatment Plant</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6843127,79.34790403" target="_blank">Srivari Pushkarini</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68386198,79.34636468" target="_blank">Laddu Stalls</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68343227,79.34777273" target="_blank">Mukha Mandapam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68320867,79.34725764" target="_blank">Sri Venkateswara Swamy Inner Complex</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68323741,79.34728694" target="_blank">Sri Venkateswara Swamy Temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6832425,79.34738575" target="_blank">Srivari Temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6833032,79.34216262" target="_blank">Rehabilitation Blocks</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68265941,79.34132172" target="_blank">Srivari Kuteer</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68273404,79.34456823" target="_blank">Vaikuntam Queue Complex 2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6828798,79.34889385" target="_blank">Auditorium</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6834215,79.34924065" target="_blank">Sri Bedi Anjaneya Swamy Temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68174386,79.34859872" target="_blank">Sanku Theertham</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6813682,79.35004175" target="_blank">Shopping Complex</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68120704,79.34987622" target="_blank">Central Shopping Complex</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68300174,79.35319674" target="_blank">Sri Venkateswara High School</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68231361,79.3528838" target="_blank">Sri Venkateswara Elementary School</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68104718,79.35188095" target="_blank">Filter House</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67750024,79.34565672" target="_blank">Sri Padmavati</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67703254,79.34754608" target="_blank">Visakha</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67704461,79.34624211" target="_blank">Gayathri</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6770271,79.34539235" target="_blank">Hari Sadan</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67606981,79.34983799" target="_blank">Anjanadri Nagar</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67731424,79.34862354" target="_blank">Ashwini Hospital</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67771914,79.34887163" target="_blank">Tirumala Post Office</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67976688,79.34461507" target="_blank">Alwar Tank</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67927518,79.34824235" target="_blank">VIP</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67916944,79.34766253" target="_blank">VIP Guest House</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67887124,79.3473213" target="_blank">Godavari Sadan</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67882136,79.34762539" target="_blank">Sriniketan</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67882446,79.346355" target="_blank">Krishna Sadan</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67885368,79.34661315" target="_blank">Indira</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67887628,79.34684111" target="_blank">Bela Kuteeram</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67890568,79.34707296" target="_blank">Gumble</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67826354,79.34785646" target="_blank">Srilakshmi Nilayam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67837144,79.34616205" target="_blank">EO Camp Office</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67815041,79.34621426" target="_blank">AMPRO</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67806979,79.34786907" target="_blank">Vishnu Nilayam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67783521,79.34787518" target="_blank">Vidya Sadan</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68071549,79.34762161" target="_blank">Tirumala</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68173573,79.34560473" target="_blank">Anantalwar Garden</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68191582,79.34679178" target="_blank">Vaikuntam Queue Complex 1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68077286,79.33985288" target="_blank">Mayura</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68015585,79.340037" target="_blank">Narayanagiri 3</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68145173,79.34020047" target="_blank">Narayanagiri 2</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67905764,79.34089866" target="_blank">Sri Venkateswara</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68213723,79.34079752" target="_blank">Narayanagiri 1</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68206979,79.34179066" target="_blank">Tamara Gunta</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67818506,79.34318788" target="_blank">Mangala Bavi Tank</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68392728,79.34301701" target="_blank">Sri Venkateswara Museum</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6777377,79.34401325" target="_blank">Gokulam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68107664,79.34239825" target="_blank">Narayanagiri Gardens</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67683005,79.3458392" target="_blank">Poddar</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67667505,79.3455483" target="_blank">Karam Nivas</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67651643,79.3432343" target="_blank">Sewage Treatment Plant</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68022144,79.35315829" target="_blank">Kousthabam guest House</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67340897,79.35186538" target="_blank">TTD Transport Yard</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67844969,79.35180089" target="_blank">Govardhan Choultry 2nd NC (Free)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68010151,79.35164364" target="_blank">Sudarshan Choultry 1NC (Free)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67164568,79.35179515" target="_blank">SV Vruksha Prasadam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67915629,79.35116879" target="_blank">CRO (Central Reception Office)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.67343845,79.35060982" target="_blank">Geethopadesam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6734531,79.35006445" target="_blank">Garudari Nagar</a></li>
+                <li><a href="https://www.google.com/maps?q=13.69698031,79.32942567" target="_blank">Veda Patasala</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68861959,79.35273403" target="_blank">Sewage Treatment Plant</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68583344,79.34925832" target="_blank">Matrusri Tarigonda Vengamamba Annap</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68597605,79.35538478" target="_blank">Sewage Treatment Plant</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68587488,79.35720757" target="_blank">Dumping Ground</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68658757,79.34327222" target="_blank">Balaji Kuteer</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68632889,79.34329323" target="_blank">Sri Thoranam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68600665,79.34321354" target="_blank">Venkata Vijayam</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68487775,79.34763863" target="_blank">Sri Varahaswamy Temple</a></li>
+                <li><a href="https://www.google.com/maps?q=13.68706529,79.34335385" target="_blank">Vijay Mallya Guest House</a></li>
+                <li><a href="https://www.google.com/maps?q=13.6847488,79.35439383" target="_blank">Tirupati (Urban)</a></li>
+                <li><a href="https://www.google.com/maps?q=13.66434383,79.36866022" target="_blank">Shelter</a></li>
+                <li><a href="https://www.google.com/maps?q=13.65986791,79.38398627" target="_blank">Sri Hanuman Statue</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
